@@ -1,20 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
+    <!-- <link rel="stylesheet" href="index.css"> -->
     <title>Super Creator Background Generator</title>
+    <style>
+        body {
+            font: 'Raleway', sans-serif;
+            color: rgba(0, 0, 0, .5);
+            text-align: center;
+            top: 15%;
+            /* background: linear-gradient(to right, lightblue, orange); */
+        }
+
+        h1 {
+            width: 100%;
+            background-color: white;
+        }
+
+        h3 {
+            background-color: white;
+            font-size: 30px;
+        }
+
+        #copy {
+            background-color: white;
+        }
+    </style>
 </head>
+
 <body id="gradient">
-    <h1>Generate your ideal background</h1>
+    <h1>Generate your gradient background!</h1>
+    <h1>Choose your Gradients</h1>
     <input class="color1" type="color" name="color1" value="#00ff00">
     <input class="color2" type="color" name="color2" value="#00ff00">
-
-    <h2>Current CSS Background</h2>
+    <hr />
     <h3></h3>
+    <h2 id="copy"></h2>
 
+    <script>
+        var css = document.querySelector("h3");
+        var color1 = document.querySelector(".color1")
+        var color2 = document.querySelector(".color2")
+        var body = document.getElementById("gradient")
 
-    <script src="index.js"></script>
+        function setGradient() {
+            body.style.background =
+                "linear-gradient(to right," + color1.value + "," + color2.value + ")";
+            css.textContent = body.style.background + ";"
+            document.getElementById('copy').innerHTML = "Copy and paste me into your CSS!"
+
+        }
+
+        color1.addEventListener("input", setGradient);
+        color2.addEventListener("input", setGradient);
+    </script>
 </body>
+
 </html>
