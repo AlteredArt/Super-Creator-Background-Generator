@@ -10,9 +10,16 @@
         body {
             font: 'Raleway', sans-serif;
             color: rgba(0, 0, 0, .5);
+            background-color: rgb(255, 255, 255);
             text-align: center;
             top: 15%;
-            /* background: linear-gradient(to right, lightblue, orange); */
+            background-size: cover;
+            height: 100vh;
+        }
+
+        input {
+            border: 3px solid black;
+            margin: 10px;
         }
 
         h1 {
@@ -20,42 +27,206 @@
             background-color: white;
         }
 
-        h3 {
+        h3,
+        p {
             background-color: white;
             font-size: 30px;
         }
 
-        #copy {
+        #linear {
+            position: relative;
+            top: 0px;
+            right: -20px;
+        }
+
+        #radial {
+            position: relative;
+            top: 0px;
+            left: -20px;
+        }
+
+        #RR,
+        #LR {
+            position: relative;
+            top: 0px;
+            right: -60px;
+        }
+
+        #RL,
+        #LL {
+            position: relative;
+            top: 0px;
+            left: -60px;
+        }
+
+        button {
+            font-size: 20px;
+            border-radius: 50px;
+            color: black;
+            margin: 10px;
             background-color: white;
+            border: 2px solid black;
+            padding: 5px;
         }
     </style>
 </head>
 
-<body id="gradient">
-    <h1>Generate your gradient background!</h1>
-    <h1>Choose your Gradients</h1>
-    <input class="color1" type="color" name="color1" value="#00ff00">
-    <input class="color2" type="color" name="color2" value="#00ff00">
+<body id="body">
+    <h1>Generate your gradient background!<br />Then Copy and Paste!</h1>
+    <hr>
+    <div>
+        <input class="color1" type="color" name="color1" value="#FFFFFF">
+        <input class="color2" type="color" name="color2" value="#FFFFFF"><br />
+        <button id='radial'>Radial</button>
+        <button id='linear'>Linear</button><br />
+        <div id=choices></div>
+        <!-- <div id='text'></div>
+        <div id=slider></div> -->
+    </div>
     <hr />
-    <h3></h3>
-    <h2 id="copy"></h2>
+    <h3 id='tag'></h3>
+
 
     <script>
-        var css = document.querySelector("h3");
+        //info
+        var tag = document.getElementById("tag");
+
+        //colors
         var color1 = document.querySelector(".color1")
         var color2 = document.querySelector(".color2")
-        var body = document.getElementById("gradient")
-
+        color1.addEventListener("input", setGradient);
+        color2.addEventListener("input", setGradient);
         function setGradient() {
             body.style.background =
-                "linear-gradient(to right," + color1.value + "," + color2.value + ")";
-            css.textContent = body.style.background + ";"
-            document.getElementById('copy').innerHTML = "Copy and paste me into your CSS!"
+                "radial-gradient(" + color1.value + "," + color2.value + ")";
+            tag.textContent = body.style.background + ";"
+        }
+
+        //radial field
+        var radial = document.getElementById('radial');
+        radial.addEventListener('click', setme)
+
+        radial.addEventListener('click', setRadial);
+        radial.addEventListener('click', addRadialButtons);
+        //set initial radial
+        function setRadial() {
+            document.getElementById('LL').remove()
+            document.getElementById('LR').remove()
+            // document.getElementById('sliderTextLinear').remove()
+            // document.getElementById('sliderBarLinear').remove()
+            //set initial background
+
+
+        }
+        function setme() {
+            body.style.background =
+                "radial-gradient(" + color1.value + ", " + color2.value + ") ";
+            tag.textContent = body.style.background + ";"
+        }
+
+        function addRadialButtons() {
+            //left radial button
+            const radialLeft = document.createElement('button');
+            radialLeft.innerText = "To The Left";
+            radialLeft.id = 'RL'
+            //event listener
+            radialLeft.addEventListener('click', () => {
+                body.style.background =
+                    "radial-gradient(" + color2.value + "," + color1.value + ")";
+                tag.textContent = body.style.background + ";"
+            }
+            )
+            //right radial button
+            const radialRight = document.createElement('button');
+            radialRight.innerText = "To The Right"
+            radialRight.id = 'RR'
+            //event listener
+            radialRight.addEventListener('click', () => {
+                body.style.background =
+                    "radial-gradient(" + color1.value + "," + color2.value + ")";
+                tag.textContent = body.style.background + ";"
+            })
+            //append buttons
+            choices.append(radialLeft, radialRight)
+            // //radial text
+            // const p = document.createElement('p');
+            // p.innerText = "Now Slide Baby edad";
+            // p.id = "sliderTextRadial"
+            // text.appendChild(p)
+            // //radial slider created
+            // const sliderBarRadial = document.createElement('input');
+            // sliderBarRadial.id = 'sliderBarRadial'
+            // sliderBarRadial.type = 'range'
+            // sliderBarRadial.min = '1'
+            // sliderBarRadial.max = '100'
+            // sliderBarRadial.value = '50'
+            // slider.appendChild(sliderBarRadial)
+            // //radial slider function
+            // // sliderBarRadial.addEventListener('click', body.style.background =
+            // //     "radial-gradient(" + color1.value + "," + color2.value + ")";
+            // // tag.textContent = body.style.background + ";")
 
         }
 
-        color1.addEventListener("input", setGradient);
-        color2.addEventListener("input", setGradient);
+
+
+
+        //linear field
+        var linear = document.getElementById('linear')
+        linear.addEventListener('click', setme)
+
+        linear.addEventListener('click', setLinear)
+        linear.addEventListener('click', addLinearButtons)
+        //set initial linear
+        function setLinear() {
+            document.getElementById('RL').remove()
+            document.getElementById('RR').remove()
+            // document.getElementById('sliderTextRadial').remove()
+            // document.getElementById('sliderBarRadial').remove()
+        }
+        function setme() {
+            body.style.background =
+                "linear-gradient(to right," + color1.value + "," + color2.value + ")";
+            tag.textContent = body.style.background + ";"
+        }
+        //add linear buttons function
+        function addLinearButtons() {
+            //left linear button
+            const linearLeft = document.createElement('button');
+            linearLeft.innerText = "To The Left";
+            linearLeft.id = 'LL'
+            linearLeft.addEventListener('click', () => {
+                body.style.background =
+                    "linear-gradient(to left," + color1.value + "," + color2.value + ")";
+                tag.textContent = body.style.background + ";"
+            })
+            //right linear button
+            const linearRight = document.createElement('button');
+            linearRight.innerText = "To The Right";
+            linearRight.id = 'LR'
+            choices.append(linearLeft, linearRight)
+            linearRight.addEventListener('click', () => {
+                body.style.background =
+                    "linear-gradient(to right," + color1.value + "," + color2.value + ")";
+                tag.textContent = body.style.background + ";"
+            })
+            // //linear text
+            // const p = document.createElement('p');
+            // p.innerText = "Now Slide Baby, Slide";
+            // p.id = "sliderTextLinear"
+            // text.appendChild(p)
+            // //linear slider
+            // const sliderBarLinear = document.createElement('input');
+            // sliderBarLinear.id = 'sliderBarLinear'
+            // sliderBarLinear.type = 'range'
+            // sliderBarLinear.min = '1'
+            // sliderBarLinear.max = '100'
+            // sliderBarLinear.value = '50'
+            // slider.appendChild(sliderBarLinear)
+        }
+
+
+
     </script>
 </body>
 
